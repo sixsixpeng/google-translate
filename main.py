@@ -8,7 +8,7 @@ import os
 from nicegui import app, ui
 
 from app.config import USER_DATA_DIR, load
-from app.patch import patch_disable_web_security
+from app.patch import patch_webview_args
 
 
 def _set_initial_on_top():
@@ -29,8 +29,12 @@ def main():
     # 确保独立用户数据目录存在（pywebview 浏览器数据隔离存放）
     USER_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
-    # 在 NiceGUI 启动前补丁 WebView2，追加 --disable-web-security 以允许 iframe 跨域加载
-    patch_disable_web_security()
+    # 补丁 WebView2：追加跨域参数、代理设置等
+    patch_webview_args(
+        proxy=settings['proxy'],
+        proxy_username=settings['proxy_username'],
+        proxy_password=settings['proxy_password'],
+    )
 
     # 原生窗口参数（从配置读取尺寸和置顶状态）
     app.native.window_args.update({

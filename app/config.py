@@ -25,6 +25,9 @@ DEFAULTS = {
     ('general', 'btn_home_y'): '10',
     ('general', 'btn_top_x'): '10',
     ('general', 'btn_top_y'): '50',
+    ('general', 'proxy'): '',
+    ('general', 'proxy_username'): '',
+    ('general', 'proxy_password'): '',
 }
 
 
@@ -67,6 +70,9 @@ def load() -> dict:
         'btn_home_y': cfg.getint('general', 'btn_home_y'),
         'btn_top_x': cfg.getint('general', 'btn_top_x'),
         'btn_top_y': cfg.getint('general', 'btn_top_y'),
+        'proxy': cfg.get('general', 'proxy'),
+        'proxy_username': cfg.get('general', 'proxy_username'),
+        'proxy_password': cfg.get('general', 'proxy_password'),
     }
 
 
