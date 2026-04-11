@@ -67,14 +67,14 @@ btn_top_x = 10
 btn_top_y = 50
 ```
 
-| 配置项 | 说明 | 默认值 |
-|--------|------|--------|
+| 配置项             | 说明     | 默认值                                         |
+|-----------------|--------|---------------------------------------------|
 | `translate_url` | 翻译页面地址 | `https://google-translate-proxy.tantu.com/` |
-| `window_on_top` | 窗口是否置顶 | `true` |
-| `window_width` | 窗口宽度 | `1100` |
-| `window_height` | 窗口高度 | `750` |
-| `btn_home_x/y` | 首页按钮位置 | `10/10` |
-| `btn_top_x/y` | 置顶按钮位置 | `10/50` |
+| `window_on_top` | 窗口是否置顶 | `true`                                      |
+| `window_width`  | 窗口宽度   | `1100`                                      |
+| `window_height` | 窗口高度   | `750`                                       |
+| `btn_home_x/y`  | 首页按钮位置 | `10/10`                                     |
+| `btn_top_x/y`   | 置顶按钮位置 | `10/50`                                     |
 
 ### 切换为百度翻译
 

@@ -1,11 +1,21 @@
-"""配置管理"""
+"""配置管理模块
+
+负责 config.ini 的读取、写入和默认值维护。
+配置文件在首次启动时自动生成，缺失的配置项会自动补全。
+"""
 import configparser
 from pathlib import Path
 
+# 项目根目录（main.py 所在目录）
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# 配置文件路径
 CONFIG_PATH = BASE_DIR / 'config.ini'
+
+# 浏览器隔离数据目录（pywebview 的 storage_path）
 USER_DATA_DIR = BASE_DIR / 'browser_data'
 
+# 默认配置项：(section, key) → default_value
 DEFAULTS = {
     ('general', 'translate_url'): 'https://fanyi.baidu.com/mtpe-individual/transText#/',
     ('general', 'window_on_top'): 'true',
@@ -19,7 +29,12 @@ DEFAULTS = {
 
 
 def ensure_config() -> configparser.ConfigParser:
-    """若配置文件不存在则自动生成默认配置，缺失项自动补全"""
+    """确保配置文件存在且完整
+
+    - 若 config.ini 不存在则自动创建
+    - 若已存在但缺少某些配置项，自动补全缺失项
+    - 返回完整的 ConfigParser 对象
+    """
     cfg = configparser.ConfigParser()
     if CONFIG_PATH.exists():
         cfg.read(str(CONFIG_PATH), encoding='utf-8')
@@ -37,7 +52,11 @@ def ensure_config() -> configparser.ConfigParser:
 
 
 def load() -> dict:
-    """读取所有配置项并返回字典"""
+    """读取所有配置项并返回字典
+
+    数值型配置项（窗口尺寸、按钮位置）自动转为 int，
+    布尔型配置项（置顶状态）自动转为 bool。
+    """
     cfg = ensure_config()
     return {
         'translate_url': cfg.get('general', 'translate_url'),
@@ -52,7 +71,12 @@ def load() -> dict:
 
 
 def save(key: str, value: str):
-    """保存单个配置项"""
+    """保存单个配置项到 config.ini
+
+    Args:
+        key: 配置项名称（如 'window_on_top'、'btn_home_x'）
+        value: 配置项值（字符串形式，写入前需调用方自行转换）
+    """
     cfg = configparser.ConfigParser()
     cfg.read(str(CONFIG_PATH), encoding='utf-8')
     if not cfg.has_section('general'):
@@ -62,5 +86,6 @@ def save(key: str, value: str):
 
 
 def _save_config(cfg: configparser.ConfigParser):
+    """将 ConfigParser 对象写入 config.ini 文件"""
     with open(str(CONFIG_PATH), 'w', encoding='utf-8') as f:
         cfg.write(f)
