@@ -1,0 +1,3 @@
+nicegui[native]>=2.0
+pythonnet>=3.0
+pyinstaller>=6.0
