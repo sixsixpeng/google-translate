@@ -1,2 +1,2 @@
-nicegui[native]>=2.0
-nicegui-pack
+pywebview
+pyinstaller
