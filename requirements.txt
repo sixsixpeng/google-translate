@@ -1,2 +1,4 @@
 pywebview
 pyinstaller
+playwright
+pynput
