@@ -14,10 +14,6 @@ class Playwright_translate:
         self.url = "https://google-translate-proxy.tantu.com/"
         # self.url = "https://translate.google.com/"
 
-
-
-
-
     def connect_windows(self):
         """连接并控制 pywebview 窗口"""
         logger.debug("创建 Playwright 实例")
@@ -40,5 +36,3 @@ class Playwright_translate:
         # 导航到url
         self.page.goto(self.url)
         logger.debug(f"导航到url--{self.url}")
-
-
