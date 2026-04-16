@@ -1,15 +1,20 @@
 # -*- coding: UTF-8 -*-
 # 2026/4/12 15:33
-import webview
-import time
-from logger import Logger
-from Playwright_translate import Playwright_translate
-from Hotkey import HotkeyListener
+import sys
 from multiprocessing import Queue as process_queue, Process
 from threading import Thread
-from enmu_data import p_task
+from pathlib import Path
 
-logger = Logger(f"./logs/{__name__}.log",log_name=__name__).logger
+import webview
+
+from Hotkey import HotkeyListener
+from Playwright_translate import Playwright_translate
+from enmu_data import p_task
+from logger import Logger, get_app_path
+
+
+
+logger = Logger(f"./logs/{__name__}.log", log_name=__name__).logger
 
 # 设置远程调试端口
 webview.settings['REMOTE_DEBUGGING_PORT'] = 9222
@@ -71,10 +76,12 @@ class App:
 
     def start_windows(self):
         logger.debug("启动窗口")
+        # 使用绝对路径存储缓存
+        cache_path = str(Path(get_app_path()) / 'cache')
         webview.start(self.connect_windows,  # 窗口初始化完成回调
                       debug=False,
                       private_mode=False,
-                      storage_path=f'./cache/'
+                      storage_path=cache_path
                       )
 
     def connect_windows(self):
@@ -86,4 +93,10 @@ class App:
 
 
 if __name__ == '__main__':
+    # PyInstaller 打包后，需要确保只有主进程创建窗口
+    # 避免子进程重复初始化导致多个窗口
+    import multiprocessing
+
+    multiprocessing.freeze_support()  # Windows 打包必须添加
+
     win = App()

@@ -3,10 +3,20 @@
 
 
 import logging
-from pathlib import Path
 import sys
 from datetime import datetime
 from logging import handlers
+from pathlib import Path
+
+
+def get_app_path():
+    """获取可执行文件所在目录（兼容开发环境和打包环境）"""
+    if getattr(sys, 'frozen', False):
+        # 打包后的环境
+        return str(Path(sys.executable).parent)
+    else:
+        # 开发环境
+        return str(Path(__file__).parent)
 
 
 class ColoredFormatter(logging.Formatter):
@@ -66,7 +76,15 @@ class Logger:
             log_name = frame.f_globals.get('__name__', 'root')  # 从调用者的全局变量中获取__name__
 
         # 确保日志文件所在目录存在，不存在则创建（包括多级目录）
-        Path(self.save_path).parent.mkdir(parents=True, exist_ok=True)
+        # 将相对路径转换为基于可执行文件目录的绝对路径
+        save_path_obj = Path(self.save_path)
+        if save_path_obj.is_absolute():
+            abs_save_path = str(save_path_obj)
+        else:
+            abs_save_path = str(Path(get_app_path()) / save_path_obj)
+
+        Path(abs_save_path).parent.mkdir(parents=True, exist_ok=True)
+        self.save_path = abs_save_path
 
         # 初始化日志
         self.configure_handlers()

@@ -1,12 +1,17 @@
 # -*- coding: UTF-8 -*-
 # 2026/4/16 00:02
-from multiprocessing import Queue
-from playwright.sync_api import sync_playwright
-from logger import Logger
+import logging
 import signal
 import sys
-from enmu_data import ele_selector
+from multiprocessing import Queue
 
+from playwright.sync_api import sync_playwright
+
+from enmu_data import ele_selector
+from logger import Logger
+
+# 多进程中使用独立的 logger，避免 handler 重复添加
+logging.basicConfig(level=logging.DEBUG)
 logger = Logger(f"./logs/{__name__}.log", log_name=__name__).logger
 
 
@@ -50,7 +55,6 @@ class Playwright_translate:
         # 导航到url
         self.page.goto(self.url)
         logger.debug(f"导航到url--{self.url}")
-
 
     def _signal_handler(self, signum, frame):
         """
@@ -173,4 +177,3 @@ class Playwright_translate:
             logger.debug("点击清空按钮")
 
         self.page.keyboard.press("Control+v")
-

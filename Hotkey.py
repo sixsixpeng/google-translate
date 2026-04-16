@@ -2,8 +2,9 @@
 # 2026/4/16 00:49
 
 from pynput import keyboard
-from logger import Logger
+
 from enmu_data import p_task
+from logger import Logger
 
 logger = Logger(f"./logs/{__name__}.log", log_name=__name__).logger
 
