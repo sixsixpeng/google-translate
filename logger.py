@@ -9,7 +9,6 @@ from datetime import datetime
 from logging import handlers
 
 
-
 class ColoredFormatter(logging.Formatter):
     # 颜色方案
     COLORS = {
@@ -39,21 +38,40 @@ class ColoredFormatter(logging.Formatter):
         return f"{color}{message}{self.RESET}"
 
 
-class Loger:
-    def __init__(self, log_path="./logs/translate.log"):
-        self.log_path = log_path
+class Logger:
+    def __init__(self, save_path,
+                 log_level=logging.DEBUG,
+                 StreamHandler_log_level=logging.DEBUG,
+                 FileHandler_log_level=logging.DEBUG,
+                 log_name=None):
+        """
+        初始化日志配置类
 
-        # 输出控制台和文件最低日志级别
-        self.FileHandler_log_level = logging.DEBUG
-        self.StreamHandler_log_level = logging.DEBUG
+        :param save_path: 日志保存路径，例"./logs/xxx.log"
+        :param log_level: 记录器(Logger)的全局日志级别，控制整个记录器的最低输出级别
+        :param StreamHandler_log_level: 控制台处理器(StreamHandler)的日志级别，独立控制控制台输出的最低级别
+        :param FileHandler_log_level: 文件处理器(FileHandler)的日志级别，独立控制文件输出的最低级别
+        :param log_name: 具有指定名称的记录器，并在必要时创建它。如果未指定名称，则使用root根记录器
+        """
+        self.save_path = save_path
+        self.log_level = log_level
+        self.log_name = log_name
+        self.StreamHandler_log_level = StreamHandler_log_level
+        self.FileHandler_log_level = FileHandler_log_level
 
-        # 初始化日志路径
-        self.check_directory(self.log_path)
+        if log_name is None:
+            # 动态获取调用者的模块名作为logger名称
+            import inspect
+            frame = inspect.currentframe().f_back  # 获取调用栈的上一帧（调用者）
+            log_name = frame.f_globals.get('__name__', 'root')  # 从调用者的全局变量中获取__name__
 
-        # 配置日志
+        # 确保日志文件所在目录存在，不存在则创建（包括多级目录）
+        Path(self.save_path).parent.mkdir(parents=True, exist_ok=True)
+
+        # 初始化日志
         self.configure_handlers()
 
-    def check_directory(self,check_path):
+    def check_directory(self, check_path):
         """
         确保路径存在，如果不存在则创建（包括多级目录）。
         :param check_path: 相对或绝对路径
@@ -61,12 +79,11 @@ class Loger:
         check_path = Path(check_path)
         check_path.parent.mkdir(parents=True, exist_ok=True)
 
-
     def configure_handlers(self):
         # 配置日志
         self.logger = logging.getLogger()
         self.logger.setLevel(logging.DEBUG)
-        
+
         # 清除已有的 handler，避免重复添加
         self.logger.handlers.clear()
 
@@ -83,27 +100,12 @@ class Loger:
         self.logger.addHandler(handler_Stream)
 
         # 输出到文件按照时间分割
-        handler_TimedRotatingFile = handlers.TimedRotatingFileHandler(self.log_path,
+        handler_TimedRotatingFile = handlers.TimedRotatingFileHandler(self.save_path,  # 实际可使用self.save_path
                                                                       when='midnight',  # 每天午夜轮转
                                                                       interval=1,  # 每天轮转一次
                                                                       backupCount=7,  # 保留 7 个备份文件
                                                                       encoding='utf-8',
                                                                       delay=True)  # 延迟直到需要才单开
         handler_TimedRotatingFile.setFormatter(text_formatter)
-        handler_TimedRotatingFile.setLevel(logging.DEBUG)
+        handler_TimedRotatingFile.setLevel(self.FileHandler_log_level)
         self.logger.addHandler(handler_TimedRotatingFile)
-
-    def demo_business(self):
-        # 测试日志输出
-        self.logger.debug('This is a debug message')
-        self.logger.info('This is an info message')
-        self.logger.warning('This is a warning message')
-        self.logger.error('This is an error message')
-        self.logger.critical('This is a critical message')
-        self.logger.exception('This is a exception message')
-
-
-
-if __name__ == '__main__':
-    loger = Loger()
-    loger.demo_business()
