@@ -24,12 +24,12 @@ class App:
         self.window = webview.create_window(
             title="Translste",
             url="",
-            width=800,
+            width=600,
             height=500,
             on_top=True,
             text_select=True,
             zoomable=True,
-            min_size=(600, 500),
+            min_size=(400, 400),
         )
         logger.debug("创建窗口实例")
 

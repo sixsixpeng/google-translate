@@ -112,10 +112,10 @@ class Logger:
                                            datefmt='%Y/%m/%d %H:%M:%S')  # 自定义时间格式，包含微秒
 
         # 输出到控制台
-        handler_Stream = logging.StreamHandler(sys.stdout)  # 控制台
-        handler_Stream.setFormatter(color_formatter)
-        handler_Stream.setLevel(self.StreamHandler_log_level)
-        self.logger.addHandler(handler_Stream)
+        # handler_Stream = logging.StreamHandler(sys.stdout)  # 控制台
+        # handler_Stream.setFormatter(color_formatter)
+        # handler_Stream.setLevel(self.StreamHandler_log_level)
+        # self.logger.addHandler(handler_Stream)
 
         # 输出到文件按照时间分割
         handler_TimedRotatingFile = handlers.TimedRotatingFileHandler(self.save_path,  # 实际可使用self.save_path
