@@ -54,9 +54,10 @@ class selector:
 
 
 class ele_selector(str, Enum):
-    char_btn = selector("文字按钮", LocatorType.XPATH, '(//button//div[@class="VfPpkd-RLmnJb"])[4]')()
-    claer_char_btn = selector("文字清空按钮", LocatorType.XPATH, '(//div[@jsname="s3Eaab"])[15]')()
-    input_char_btn = selector("文字输入框", LocatorType.XPATH, '//textarea')()
+    char_btn = selector("文字按钮", LocatorType.XPATH, '//button[@class="VfPpkd-LgbsSe VfPpkd-LgbsSe-OWXEXe-INsAgc VfPpkd-LgbsSe-OWXEXe-Bz112c-M1Soyc VfPpkd-LgbsSe-OWXEXe-dgl2Hf Rj2Mlf OLiIxf PDpWxe LQeN7 GyPTPe"]')()
+    claer_char_btn = selector("文字清空按钮", LocatorType.XPATH, '//button[@class="VfPpkd-Bz112c-LgbsSe VfPpkd-Bz112c-LgbsSe-OWXEXe-e5LLRc-SxQuSe yHy1rc eT1oJ mN1ivc ZihNHd GA2I6e"]')()
+    input_char_btn = selector("文字输入框", LocatorType.XPATH, ' //div/textarea')()
 
-    img_btn = selector("图片按钮", LocatorType.XPATH, '(//button//div[@class="VfPpkd-RLmnJb"])[5]')()
-    claer_img_btn = selector("图片清空按钮", LocatorType.XPATH, '(//div[@jsname="s3Eaab"])[15]')()
+    img_btn = selector("图片按钮", LocatorType.XPATH, '//div[@class="cWQYBc"]/div/button[@jsname="SHEbFd"]')()
+    claer_img_btn = selector("图片清空按钮", LocatorType.XPATH, '//div[@class="EXiLob"]/span/button[@jsname="X5DuWc"]')()
+

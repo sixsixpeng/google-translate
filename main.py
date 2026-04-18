@@ -1,9 +1,8 @@
 # -*- coding: UTF-8 -*-
 # 2026/4/12 15:33
-import sys
 from multiprocessing import Queue as process_queue, Process
-from threading import Thread
 from pathlib import Path
+from threading import Thread
 
 import webview
 
@@ -11,8 +10,6 @@ from Hotkey import HotkeyListener
 from Playwright_translate import Playwright_translate
 from enmu_data import p_task
 from logger import Logger, get_app_path
-
-
 
 logger = Logger(f"./logs/{__name__}.log", log_name=__name__).logger
 
@@ -24,9 +21,8 @@ logger.debug(f"设置远程调试端口:{webview.settings['REMOTE_DEBUGGING_PORT
 class App:
     def __init__(self):
         # 创建窗口
-        super().__init__()
         self.window = webview.create_window(
-            title="事件演示窗口",
+            title="Translste",
             url="",
             width=800,
             height=500,

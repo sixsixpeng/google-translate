@@ -20,16 +20,16 @@ class HotkeyListener:
         self.listening_method()
 
     def text_translation(self):
-        logger.debug('<alt>+v pressed,触发文字翻译')
+        logger.debug('<ctrl>+c pressed,触发文字翻译')
         self.THREAD_TASK_LIST.put(p_task("text_translation"))
 
     def img_translation(self):
-        logger.debug('<alt>+x pressed,触发图片翻译')
+        logger.debug('<ctrl>+d pressed,触发图片翻译')
         self.THREAD_TASK_LIST.put(p_task("img_translation"))
 
     def listening_method(self):
-        self.listen = keyboard.GlobalHotKeys({'<alt>+v': self.text_translation,
-                                              '<alt>+x': self.img_translation,
+        self.listen = keyboard.GlobalHotKeys({'<ctrl>+c': self.text_translation,
+                                              '<ctrl>+d': self.img_translation,
                                               })
 
         self.listen.start()

@@ -157,6 +157,7 @@ class Playwright_translate:
             claer_char_btn.click()
             logger.debug("点击清空按钮")
 
+        claer_char_btn.wait_for(state="hidden", timeout=500)
         input_char_btn.click()
         logger.debug("点击输入框")
         self.page.keyboard.press("Control+v")
@@ -176,4 +177,6 @@ class Playwright_translate:
             claer_img_btn.click()
             logger.debug("点击清空按钮")
 
+        claer_img_btn.wait_for(state="hidden", timeout=500)
         self.page.keyboard.press("Control+v")
+        logger.debug("粘贴图片")
